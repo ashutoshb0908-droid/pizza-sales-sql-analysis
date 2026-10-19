@@ -1,0 +1,111 @@
+ 
+1= Total Revenue 
+select Round(SUM(total_price),2) as Total_revenue 
+from pizza_eva
+  
+2- --AVG_Order_price
+--select Round(Sum(total_price) / COUNT(distinct order_id),4) as Avg_Order_Value  
+from pizza_eva
+
+3-Total_pizza_sold
+select sum(quantity) as Total_Pizza_Sold
+from pizza_eva
+ 
+ 4-Total_Orders
+select COUNT(distinct order_id) as Total_orders
+from pizza_eva
+5-Avg_pizza_order
+ select round(sum(quantity) / count(distinct order_id),2) as avg_pizza_order
+from pizza_eva
+6-pizza_category
+select distinct pizza_category 
+from pizza_ev
+7-Total_chicken_pizza(--top seller chicken pizza)
+select distinct pizza_name, sum(quantity) as total_as_per_pizza
+from pizza_eva 
+where pizza_name Like '%CHICKEN%'
+group by pizza_name
+order by total_as_per_pizza desc
+limit 4
+##top seller chicken pizza
+8-Pineapple_pizza_eva(top 3 order_id) 
+Syntax-----------
+use pizza_db;
+select order_id,pizza_size,pizza_ingredients,sum(quantity) as total_pineapple
+from pizza_eva 
+where pizza_ingredients like "%pineapple%"
+and pizza_name like '%thai%'
+and pizza_size = 'L'
+group by order_id,pizza_size,pizza_ingredients
+order by total_pineapple desc
+limit 3
+ 9- Daily Trend
+use Pizza_db;
+select DATENAME(dw, order_date) as order_date , COUNT(distinct order_id) as total_orders
+from pizza_eva
+group by DATENAME(dw, order_date 
+10- Percentage(Pct) of sales syntax 
+Without month wise
+ 
+USE pizza_db
+SELECT 
+    pizza_category, round(sum(total_price),3) as total_sales,
+    round(SUM(total_price) * 100.0 / (SELECT SUM(total_price) FROM pizza_eva),2 ) AS total_sales_percentage
+FROM pizza_eva
+Where month(order_date) = 1 (we used  one bcz we needed for jan only (same wit2,3,4 month name))
+GROUP BY pizza_category;
+ with month wise quey 10
+ 11- As per pizza size and day months wise (of 1,2 month only)
+ 
+SELECT 
+    pizza_size, round(sum(total_price),3) as total_sales,
+    round(SUM(total_price) * 100.0 / (SELECT SUM(total_price) FROM pizza_eva),2 ) AS t_s_p
+FROM pizza_eva
+where order_date like '%-02-%' or '%-01-%'
+ GROUP BY pizza_size
+order by t_s_p desc
+
+ 
+12=total pizza sold 
+select pizza_category, sum(quantity) as total_pizza_sold
+from pizza_eva 
+group by pizza_category
+
+13= top 5 pizza sold
+select pizza_name, sum(quantity) as total_sales
+from pizza_eva
+ group by pizza_name 
+ order by sum(quantity) desc
+ limit 5  
+14- Bottom 5 pizza
+USE pizza_db;
+select pizza_name, sum(quantity) as total_sales
+from pizza_eva
+ group by pizza_name 
+ order by sum(quantity)  
+ limit 5 
+ 
+
+  
+
+ 
+
+ 
+ 
+
+
+
+ 
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+/
+  
